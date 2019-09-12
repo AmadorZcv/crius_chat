@@ -17,6 +17,11 @@ defmodule CriusChatWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    get "/register", UserController, :new
+    get "/sign_in", UserController, :sign_in
+    post "/login", UserController, :login
+    post "/create", UserController, :create
+    delete "/logout", UserController, :logout
   end
 
   # Other scopes may use custom stacks.

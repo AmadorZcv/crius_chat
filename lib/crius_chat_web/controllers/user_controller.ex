@@ -14,15 +14,41 @@ defmodule CriusChatWeb.UserController do
     render(conn, "new.html", changeset: changeset)
   end
 
+  def sign_in(conn, _) do
+    render(conn, "login.html")
+  end
+
   def create(conn, %{"user" => user_params}) do
     case Auth.create_user(user_params) do
-      {:ok, user} ->
+      {:ok, _} ->
         conn
         |> put_flash(:info, "User created successfully.")
-        |> redirect(to: Routes.user_path(conn, :show, user))
+        |> redirect(to: Routes.page_path(conn, :index))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
+    end
+  end
+
+  def login(conn, %{"user" => %{"email" => email, "password" => password}}) do
+    case Auth.sign_in(email, password) do
+      {:ok, auth_token} ->
+        conn
+        |> put_session(:token, auth_token)
+        |> put_session(:email, email)
+        |> redirect(to: Routes.page_path(conn, :index))
+
+      {:error, reason} ->
+        conn
+        |> put_flash(:error, reason)
+        |> redirect(to: Routes.page_path(conn, :index))
+    end
+  end
+
+  def logout(conn, _) do
+    case Auth.sign_out(conn) do
+      {:error, _} -> conn |> redirect(to: Routes.page_path(conn, :index))
+      {:ok, _} -> conn |> clear_session |> redirect(to: Routes.page_path(conn, :index))
     end
   end
 
@@ -41,10 +67,10 @@ defmodule CriusChatWeb.UserController do
     user = Auth.get_user!(id)
 
     case Auth.update_user(user, user_params) do
-      {:ok, user} ->
+      {:ok, _} ->
         conn
         |> put_flash(:info, "User updated successfully.")
-        |> redirect(to: Routes.user_path(conn, :show, user))
+        |> redirect(to: Routes.page_path(conn, :index))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "edit.html", user: user, changeset: changeset)
@@ -57,6 +83,6 @@ defmodule CriusChatWeb.UserController do
 
     conn
     |> put_flash(:info, "User deleted successfully.")
-    |> redirect(to: Routes.user_path(conn, :index))
+    |> redirect(to: Routes.page_path(conn, :index))
   end
 end
