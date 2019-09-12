@@ -1,14 +1,14 @@
 defmodule CriusChat.Auth.AuthToken do
   use Ecto.Schema
   import Ecto.Changeset
+  alias CriusChat.Auth.User
 
   schema "auth_tokens" do
     field :agent, :string
     field :revoked, :boolean, default: false
     field :revoked_at, :utc_datetime
     field :token, :string
-    field :user_id, :id
-
+    belongs_to :user, User
     timestamps()
   end
 
