@@ -31,7 +31,12 @@ defmodule CriusChatWeb.UserController do
   end
 
   def login(conn, %{"user" => %{"email" => email, "password" => password}}) do
-    case Auth.sign_in(email, password) do
+    agent =
+      conn
+      |> Plug.Conn.get_req_header("user-agent")
+      |> Enum.at(0)
+
+    case Auth.sign_in(email, password, agent) do
       {:ok, auth_token} ->
         conn
         |> put_session(:token, auth_token)

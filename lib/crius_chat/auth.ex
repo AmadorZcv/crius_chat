@@ -19,11 +19,11 @@ defmodule CriusChat.Auth do
     |> Repo.one()
   end
 
-  def sign_in(email, password) do
+  def sign_in(email, password, agent) do
     case Bcrypt.check_pass(Repo.get_by(User, email: email), password) do
       {:ok, user} ->
         token = Authenticator.generate_token(user.id)
-        Repo.insert(Ecto.build_assoc(user, :auth_tokens, %{token: token}))
+        Repo.insert(Ecto.build_assoc(user, :auth_tokens, %{token: token, agent: agent}))
 
       err ->
         err
