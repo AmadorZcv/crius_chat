@@ -61,7 +61,8 @@ config :crius_chat, CriusChatWeb.Endpoint,
       ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
       ~r"priv/gettext/.*(po)$",
       ~r"lib/crius_chat_web/{live,views}/.*(ex)$",
-      ~r"lib/crius_chat_web/templates/.*(eex)$"
+      ~r"lib/crius_chat_web/templates/.*(eex)$",
+      ~r{lib/my_app_web/live/.*(ex)$}
     ]
   ]
 

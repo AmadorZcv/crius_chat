@@ -15,7 +15,10 @@ config :crius_chat, CriusChatWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "PXu+ScDpC0GC/BrsJWAGaK3sZaPHRJ0Zy0Aj68+D2oS0IV4tN0Z44Vshe4VXY5ZS",
   render_errors: [view: CriusChatWeb.ErrorView, accepts: ~w(html json)],
-  pubsub: [name: CriusChat.PubSub, adapter: Phoenix.PubSub.PG2]
+  pubsub: [name: CriusChat.PubSub, adapter: Phoenix.PubSub.PG2],
+  live_view: [
+    signing_salt: "P/079XYfB2aH1KnLxbHKqWIK3vR0Nw1l"
+  ]
 
 # Configures Elixir's Logger
 config :logger, :console,
