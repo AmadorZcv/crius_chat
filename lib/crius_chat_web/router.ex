@@ -25,6 +25,14 @@ defmodule CriusChatWeb.Router do
     delete "/logout", UserController, :logout
   end
 
+  scope "/auth", CriusChatWeb do
+    pipe_through :api
+
+    post "/registrar", AuthController, :registrar
+    post "/sign_in", AuthController, :sign_in
+    delete "/sign_out", AuthController, :sign_out
+  end
+
   # Other scopes may use custom stacks.
   # scope "/api", CriusChatWeb do
   #   pipe_through :api

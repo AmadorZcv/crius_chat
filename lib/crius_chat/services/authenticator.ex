@@ -25,16 +25,19 @@ defmodule CriusChat.Services.Authenticator do
   defp extract_token(conn) do
     case Plug.Conn.get_req_header(conn, "authorization") do
       [auth_header] ->
+        # get_token_from_header(auth_header)
         {:ok, String.trim(auth_header)}
 
       _ ->
-        case Plug.Conn.get_session(conn, :token) do
-          nil ->
-            {:error, :missing_auth_header}
+        {:error, :missing_auth_header}
+    end
 
-          token ->
-            {:ok, token.token}
-        end
+    case Plug.Conn.get_session(conn, :token) do
+      nil ->
+        {:error, :missing_auth_header}
+
+      token ->
+        {:ok, token.token}
     end
   end
 end

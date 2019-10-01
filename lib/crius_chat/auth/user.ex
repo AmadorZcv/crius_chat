@@ -17,7 +17,7 @@ defmodule CriusChat.Auth.User do
     user
     |> cast(attrs, [:nickname, :email, :password])
     |> put_password_hash()
-    |> unique_constraint(:email)
+    |> unique_constraint(:email, downcase: true)
     |> validate_required([:nickname, :email, :password_hash])
   end
 
