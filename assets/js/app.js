@@ -25,8 +25,14 @@ let socket = new Socket("/socket", {
     params: { user_id: window.location.search.split("=")[1] }
 })
 
+
+
 let channel = socket.channel("lobby:lobby", {})
+let userChannel = socket.channel("user:" + window.location.search.split("=")[1], {})
+userChannel.join()
+userChannel.on("open_convo", (payload) => console.log("Payload", payload))
 let presence = new Presence(channel)
+
 
 function renderOnlineUsers(presence) {
     let response = ""

@@ -4,6 +4,7 @@ defmodule CriusChatWeb.UserSocket do
   ## Channels
   # channel "room:*", CriusChatWeb.RoomChannel
   channel "lobby:*", CriusChatWeb.LobbyChannel
+  channel "user:*", CriusChatWeb.UserChannel
   # Socket params are passed from the client and can
   # be used to verify and authenticate a user. After
   # verification, you can put default assigns into
