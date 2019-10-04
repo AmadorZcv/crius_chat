@@ -34,7 +34,8 @@ defmodule CriusChatWeb.Router do
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", CriusChatWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", CriusChatWeb do
+    pipe_through :api
+    get "/talk_to/:user_id", ChatController, :talk_to
+  end
 end
