@@ -15,6 +15,11 @@ defmodule CriusChatWeb.UserChannel do
     {:reply, {:ok, payload}, socket}
   end
 
+  def handle_in("talk_to", payload, socket) do
+    broadcast(socket, "open_convo", payload)
+    {:reply, {:ok, payload}, socket}
+  end
+
   # It is also common to receive messages from the client and
   # broadcast to everyone in the current topic (user:lobby).
   def handle_in("shout", payload, socket) do

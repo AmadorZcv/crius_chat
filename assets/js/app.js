@@ -29,11 +29,19 @@ let socket = new Socket("/socket", {
 
 let channel = socket.channel("lobby:lobby", {})
 let userChannel = socket.channel("user:" + window.location.search.split("=")[1], {})
-userChannel.join()
+
+channel.on("open_convo", msg => console.log("Got message", msg))
 userChannel.on("open_convo", (payload) => console.log("Payload", payload))
+userChannel.onMessage("open_convo", (payload) => console.log("Payload", payload))
+
+
 let presence = new Presence(channel)
-
-
+userChannel.join()
+console.log("Aqui")
+userChannel.push("talk_to", { body: "asd" }, 10000)
+    .receive("ok", (msg) => console.log("created message", msg))
+    .receive("error", (reasons) => console.log("create failed", reasons))
+    .receive("timeout", () => console.log("Networking issue..."))
 function renderOnlineUsers(presence) {
     let response = ""
 
