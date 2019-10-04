@@ -3,7 +3,7 @@ defmodule CriusChatWeb.UserSocket do
 
   ## Channels
   # channel "room:*", CriusChatWeb.RoomChannel
-
+  channel "lobby:*", CriusChatWeb.LobbyChannel
   # Socket params are passed from the client and can
   # be used to verify and authenticate a user. After
   # verification, you can put default assigns into
@@ -15,8 +15,8 @@ defmodule CriusChatWeb.UserSocket do
   #
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
-  def connect(_params, socket, _connect_info) do
-    {:ok, socket}
+  def connect(params, socket, _connect_info) do
+    {:ok, assign(socket, :user_id, params["user_id"])}
   end
 
   # Socket id's are topics that allow you to identify all sockets for a given user:

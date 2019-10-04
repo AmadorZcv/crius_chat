@@ -11,7 +11,8 @@ defmodule CriusChat.Application do
       # Start the Ecto repository
       CriusChat.Repo,
       # Start the endpoint when the application starts
-      CriusChatWeb.Endpoint
+      CriusChatWeb.Endpoint,
+      CriusChatWeb.Presence
       # Starts a worker by calling: CriusChat.Worker.start_link(arg)
       # {CriusChat.Worker, arg},
     ]
