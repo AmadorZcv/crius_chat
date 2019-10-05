@@ -13,4 +13,22 @@ defmodule CriusChatWeb.ErrorView do
   def template_not_found(template, _assigns) do
     Phoenix.Controller.status_message_from_template(template)
   end
+
+  def render("404.html", _assigns) do
+    # %{
+    #   error: "Page not found"
+    # }
+    "404"
+  end
+
+  def render("500.html", _assigns) do
+    # %{
+    #   error: "Internal server error"
+    # }
+    "500"
+  end
+
+  def render("error.json", %{message: message}) do
+    %{message: message}
+  end
 end

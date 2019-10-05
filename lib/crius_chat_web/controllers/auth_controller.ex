@@ -1,12 +1,22 @@
 defmodule CriusChatWeb.AuthController do
   use CriusChatWeb, :controller
   alias CriusChat.Auth
+  alias CriusChatWeb.ChangesetView
+  action_fallback ServerWeb.FallbackAPIController
 
   def register(conn, %{"user" => user_params}) do
-    with {:ok, user} <- Auth.create_user(user_params) do
-      conn
-      |> put_status(:created)
-      |> render("sign_up_success.json", %{id: user.id})
+    case Auth.create_user(user_params) do
+      {:ok, user} ->
+        conn
+        |> put_status(:created)
+        |> render("sign_up_success.json", %{id: user.id})
+
+      {:error, changeset} ->
+        IO.puts("Here")
+
+        conn
+        |> put_view(ChangesetView)
+        |> render("error.json", changeset: changeset)
     end
   end
 
