@@ -2,11 +2,11 @@ defmodule CriusChatWeb.AuthController do
   use CriusChatWeb, :controller
   alias CriusChat.Auth
 
-  def registrar(conn, %{"usuario" => usuario_params}) do
-    with {:ok, usuario} <- Auth.create_user(usuario_params) do
+  def register(conn, %{"user" => user_params}) do
+    with {:ok, user} <- Auth.create_user(user_params) do
       conn
       |> put_status(:created)
-      |> render("sign_up_success.json", %{id: usuario.id})
+      |> render("sign_up_success.json", %{id: user.id})
     end
   end
 
