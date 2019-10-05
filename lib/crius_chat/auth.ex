@@ -88,7 +88,6 @@ defmodule CriusChat.Auth do
     %User{}
     |> User.changeset(attrs)
     |> Repo.insert()
-    |> IO.inspect()
   end
 
   @doc """

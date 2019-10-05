@@ -12,8 +12,6 @@ defmodule CriusChatWeb.AuthController do
         |> render("sign_up_success.json", %{id: user.id})
 
       {:error, changeset} ->
-        IO.puts("Here")
-
         conn
         |> put_view(ChangesetView)
         |> render("error.json", changeset: changeset)
