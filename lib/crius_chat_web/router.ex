@@ -1,6 +1,10 @@
 defmodule CriusChatWeb.Router do
   use CriusChatWeb, :router
 
+  pipeline :authenticate do
+    plug CriusChatWeb.Plugs.AuthenticatePlug
+  end
+
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -36,6 +40,8 @@ defmodule CriusChatWeb.Router do
   # Other scopes may use custom stacks.
   scope "/api", CriusChatWeb do
     pipe_through :api
+    pipe_through :authenticate
+
     get "/talk_to/:user_id", ChatController, :talk_to
   end
 end
