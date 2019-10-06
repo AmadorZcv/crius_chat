@@ -9,7 +9,7 @@ defmodule CriusChatWeb.ChatController do
       |> Enum.join(":")
 
     CriusChatWeb.Endpoint.broadcast!("user:" <> user_id, "open_convo", %{
-      rooom: "private_chat:" <> room_name
+      room: "private_chat:" <> room_name
     })
 
     conn

@@ -22,39 +22,48 @@ let liveSocket = new LiveSocket("/live", Socket);
 liveSocket.connect();
 
 let socket = new Socket("/socket", {
-    params: { user_id: window.location.search.split("=")[1] }
-})
+  params: { user_id: window.location.search.split("=")[1] }
+});
 
+let channel = socket.channel("lobby:lobby", {});
+let userChannel = socket.channel(
+  "user:" + window.location.search.split("=")[1],
+  {}
+);
 
+channel.on("open_convo", msg => console.log("Got message", msg));
+userChannel.on("open_convo", payload => {
+  console.log("oi???");
+  let privateChannel = socket.channel(payload.room);
+  privateChannel.on("message", payload =>
+    console.log("Mensagem no web", payload)
+  );
+  privateChannel.join();
+  privateChannel.push("message", { message: "Pedro enviando" });
+});
+//userChannel.onMessage("open_convo", payload => console.log("Payload", payload));
 
-let channel = socket.channel("lobby:lobby", {})
-let userChannel = socket.channel("user:" + window.location.search.split("=")[1], {})
-
-channel.on("open_convo", msg => console.log("Got message", msg))
-userChannel.on("open_convo", (payload) => console.log("Payload", payload))
-userChannel.onMessage("open_convo", (payload) => console.log("Payload", payload))
-
-
-let presence = new Presence(channel)
-userChannel.join()
-console.log("Aqui")
-userChannel.push("talk_to", { body: "asd" }, 10000)
-    .receive("ok", (msg) => console.log("created message", msg))
-    .receive("error", (reasons) => console.log("create failed", reasons))
-    .receive("timeout", () => console.log("Networking issue..."))
+let presence = new Presence(channel);
+userChannel.join();
+console.log("Aqui");
+userChannel
+  .push("talk_to", { body: "asd" }, 10000)
+  .receive("ok", msg => console.log("created message", msg))
+  .receive("error", reasons => console.log("create failed", reasons))
+  .receive("timeout", () => console.log("Networking issue..."));
 function renderOnlineUsers(presence) {
-    let response = ""
+  let response = "";
 
-    presence.list((id, { metas: [first, ...rest] }) => {
-        let count = rest.length + 1
-        response += `<br>${id} (count: ${count})</br>`
-    })
+  presence.list((id, { metas: [first, ...rest] }) => {
+    let count = rest.length + 1;
+    response += `<br>${id} (count: ${count})</br>`;
+  });
 
-    document.querySelector("main[role=main]").innerHTML = response
+  document.querySelector("main[role=main]").innerHTML = response;
 }
 
-socket.connect()
+socket.connect();
 
-presence.onSync(() => renderOnlineUsers(presence))
+presence.onSync(() => renderOnlineUsers(presence));
 
-channel.join()
+channel.join();
