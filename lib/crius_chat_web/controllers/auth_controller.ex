@@ -20,10 +20,10 @@ defmodule CriusChatWeb.AuthController do
 
   def sign_in(conn, %{"email" => email, "password" => password}) do
     case Auth.sign_in(email, password, "api") do
-      {:ok, auth_token} ->
+      {:ok, auth_token, nickname} ->
         conn
         |> put_status(:ok)
-        |> render("show.json", auth_token)
+        |> render("show.json", %{auth_token: auth_token, nickname: nickname})
 
       {:error, reason} ->
         conn

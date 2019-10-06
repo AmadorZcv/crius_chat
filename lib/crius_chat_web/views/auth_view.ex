@@ -11,7 +11,7 @@ defmodule CriusChatWeb.AuthView do
     }
   end
 
-  def render("show.json", auth_token) do
-    %{data: %{token: auth_token.token}}
+  def render("show.json", %{auth_token: auth_token, nickname: nickname}) do
+    %{data: %{token: auth_token, nickname: nickname}}
   end
 end
