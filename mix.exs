@@ -20,7 +20,7 @@ defmodule CriusChat.MixProject do
   def application do
     [
       mod: {CriusChat.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :corsica]
     ]
   end
 
@@ -44,6 +44,7 @@ defmodule CriusChat.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:bcrypt_elixir, "~> 2.0"},
+      {:corsica, "~> 1.0"},
       {:phoenix_live_view, "~> 0.2.0"}
     ]
   end
