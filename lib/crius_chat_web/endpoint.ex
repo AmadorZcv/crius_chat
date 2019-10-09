@@ -43,5 +43,6 @@ defmodule CriusChatWeb.Endpoint do
     key: "_crius_chat_key",
     signing_salt: "AV0mSPMx"
 
+  plug Corsica, origins: "*", allow_headers: :all
   plug CriusChatWeb.Router
 end

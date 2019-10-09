@@ -16,6 +16,7 @@ defmodule CriusChatWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug Corsica, origins: "*"
   end
 
   scope "/", CriusChatWeb do
@@ -31,7 +32,6 @@ defmodule CriusChatWeb.Router do
 
   scope "/auth", CriusChatWeb do
     pipe_through :api
-
     post "/register", AuthController, :register
     post "/sign_in", AuthController, :sign_in
     delete "/sign_out", AuthController, :sign_out

@@ -14,6 +14,7 @@ defmodule CriusChatWeb.AuthController do
       {:error, changeset} ->
         conn
         |> put_view(ChangesetView)
+        |> put_status(400)
         |> render("error.json", changeset: changeset)
     end
   end
