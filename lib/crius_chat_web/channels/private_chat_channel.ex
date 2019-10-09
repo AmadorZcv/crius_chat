@@ -27,6 +27,16 @@ defmodule CriusChatWeb.PrivateChatChannel do
     {:noreply, socket}
   end
 
+  def handle_in("start", payload, socket) do
+    broadcast_from(socket, "message", payload)
+    {:noreply, socket}
+  end
+
+  def handle_in("share_key", payload, socket) do
+    broadcast_from(socket, "message", payload)
+    {:noreply, socket}
+  end
+
   # Add authorization logic here as required.
   defp authorized?(_payload) do
     true

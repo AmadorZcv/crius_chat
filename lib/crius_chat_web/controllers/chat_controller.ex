@@ -8,12 +8,16 @@ defmodule CriusChatWeb.ChatController do
       Enum.sort([user_id, nickname])
       |> Enum.join(":")
 
+    public_key = Enum.random(1..11)
+
     CriusChatWeb.Endpoint.broadcast!("user:" <> user_id, "open_convo", %{
-      room: "private_chat:" <> room_name
+      room: "private_chat:" <> room_name,
+      public_key: public_key,
+      nickname: nickname
     })
 
     conn
     |> put_status(:ok)
-    |> render("room.json", %{room: "private_chat:" <> room_name})
+    |> render("room.json", %{room: "private_chat:" <> room_name, public_key: public_key})
   end
 end

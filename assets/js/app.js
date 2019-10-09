@@ -30,27 +30,25 @@ let userChannel = socket.channel(
   "user:" + window.location.search.split("=")[1],
   {}
 );
-
-channel.on("open_convo", msg => console.log("Got message", msg));
 userChannel.on("open_convo", payload => {
   console.log("oi???");
   let privateChannel = socket.channel(payload.room);
-  privateChannel.on("message", payload =>
-    console.log("Mensagem no web", payload)
+
+  privateChannel.on("share_key", payload =>
+    privateChannel.push("share_key", { sharedKey: 123 })
   );
+
   privateChannel.join();
-  privateChannel.push("message", { message: "Pedro enviando" });
+  console.log("Join");
+  privateChannel.push("start", { sharedKey: 123 });
 });
+
 //userChannel.onMessage("open_convo", payload => console.log("Payload", payload));
 
 let presence = new Presence(channel);
 userChannel.join();
 console.log("Aqui");
-userChannel
-  .push("talk_to", { body: "asd" }, 10000)
-  .receive("ok", msg => console.log("created message", msg))
-  .receive("error", reasons => console.log("create failed", reasons))
-  .receive("timeout", () => console.log("Networking issue..."));
+
 function renderOnlineUsers(presence) {
   let response = "";
 
