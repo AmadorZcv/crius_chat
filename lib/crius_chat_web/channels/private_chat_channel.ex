@@ -28,12 +28,12 @@ defmodule CriusChatWeb.PrivateChatChannel do
   end
 
   def handle_in("start", payload, socket) do
-    broadcast_from(socket, "message", payload)
+    broadcast_from(socket, "start", payload)
     {:noreply, socket}
   end
 
   def handle_in("share_key", payload, socket) do
-    broadcast_from(socket, "message", payload)
+    broadcast_from(socket, "share_key", payload)
     {:noreply, socket}
   end
 

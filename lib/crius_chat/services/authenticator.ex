@@ -23,6 +23,9 @@ defmodule CriusChat.Services.Authenticator do
 
   # extrai o token do conn
   defp extract_token(conn) do
+    IO.puts("Aqui")
+    IO.inspect(conn)
+
     case Plug.Conn.get_req_header(conn, "authorization") do
       [auth_header] ->
         {:ok, String.trim(auth_header)}
